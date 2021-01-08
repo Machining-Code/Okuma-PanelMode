@@ -1,0 +1,31 @@
+﻿<Window x:Class="Okuma.PanelMode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Okuma.PanelMode"
+        mc:Ignorable="d"
+        x:Name="winMain"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:BoolBrushConverter x:Key="ButtonBorderBrush" TrueBrush="PowderBlue" FalseBrush="Black"/>
+        <Style TargetType="Button">
+            <Setter Property="BorderThickness" Value="5"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="0 10"/>
+            <Setter Property="Margin" Value="0 10 0 0"/>
+        </Style>
+    </Window.Resources>
+    <StackPanel>
+        <Border Background="Red" MinHeight="64"/>
+        <!-- TODO: draggable, foldable buttons-->
+        <StackPanel Orientation="Vertical">
+            <Button Content="Operation" x:Name="btnOperation" Click="btnOperation_Click" BorderBrush="{Binding ElementName=winMain, Path=IsOperation, Converter={StaticResource ButtonBorderBrush}}"/>
+            <Button Content="Program" x:Name="btnProgram" Click="btnProgram_Click" BorderBrush="{Binding ElementName=winMain, Path=IsProgramOperation, Converter={StaticResource ButtonBorderBrush}}"/>
+            <Button Content="Parameter" x:Name="btnParameter" Click="btnParameter_Click" BorderBrush="{Binding ElementName=winMain, Path=IsParameterSetup, Converter={StaticResource ButtonBorderBrush}}"/>
+            <Button Content="Zero Set" x:Name="btnZeroSet" Click="btnZeroSet_Click" BorderBrush="{Binding ElementName=winMain, Path=IsZeroSetup, Converter={StaticResource ButtonBorderBrush}}"/>
+            <Button Content="Tool Data" x:Name="btnToolData" Click="btnToolData_Click" BorderBrush="{Binding ElementName=winMain, Path=IsToolDataSetup, Converter={StaticResource ButtonBorderBrush}}"/>
+            <Button Content="MacMan" x:Name="btnMacMan" Click="btnMacMan_Click" BorderBrush="{Binding ElementName=winMain, Path=IsMacMan, Converter={StaticResource ButtonBorderBrush}}"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
