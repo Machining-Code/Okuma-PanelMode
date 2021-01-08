@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Okuma.PanelMode.Common
 {
+
     public class PanelModeFactory
     {
         public static IPanelMode CreatePanelMode()

@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Okuma.CLCMDAPI, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b1995dacb00ab534, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lathe\Okuma.CLCMDAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Okuma.CLDATAPI, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b1995dacb00ab534, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lathe\Okuma.CLDATAPI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -57,6 +65,8 @@
     </ApplicationDefinition>
     <Compile Include="BoolBrushConverter.cs" />
     <Compile Include="BoolColorConverter.cs" />
+    <Compile Include="Common\ExtensionMethods.cs" />
+    <Compile Include="Lathe\PanelModeLathe.cs" />
     <Compile Include="Sim\PanelModeSim.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +113,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Control\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Grinder\Okuma.CGCMDAPI.dll" />
+    <Content Include="Lathe\Okuma.CLCMDAPI.dll" />
+    <Content Include="MC\Okuma.CMCMDAPI.dll" />
+    <Resource Include="MC\Okuma.CMCMDAPI.xml" />
+    <Content Include="MC\Okuma.CMDATAPI.dll" />
+    <Resource Include="MC\Okuma.CMDATAPI.xml" />
+    <Resource Include="Lathe\Okuma.CLCMDAPI.xml" />
+    <Content Include="Lathe\Okuma.CLDATAPI.dll" />
+    <Resource Include="Lathe\Okuma.CLDATAPI.xml" />
+    <Resource Include="Grinder\Okuma.CGCMDAPI.xml" />
+    <Content Include="Grinder\Okuma.CGDATAPI.dll" />
+    <Resource Include="Grinder\Okuma.CGDATAPI.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
