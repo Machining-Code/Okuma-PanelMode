@@ -9,7 +9,8 @@
         Title="PanelMode" Height="580" Width="300"
         WindowStyle="None"
         SizeToContent="WidthAndHeight"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        LocationChanged="winMain_LocationChanged">
     <Window.Resources>
         <Style TargetType="ToggleButton">
             <Setter Property="FontSize" Value="20"/>
@@ -25,7 +26,8 @@
     <StackPanel>
         <Border Background="{DynamicResource ResourceKey={x:Static SystemColors.ActiveCaptionBrushKey}}" Height="64">
             <DockPanel>
-                <Button WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Content="r" FontFamily="Marlett" FontSize="20" Padding="10" x:Name="btnClose" Click="btnClose_Click"/>
+                <Button WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Left" Content="v" FontFamily="Marlett" FontSize="20" Padding="5 10" x:Name="btnToggle" Click="btnToggle_Click"/>
+                <Button WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Content="r" FontFamily="Marlett" FontSize="20" Padding="5 10" x:Name="btnClose" Click="btnClose_Click"/>
                 <Label DockPanel.Dock="Left" Content="{Binding Title, ElementName=winMain}" FontSize="20" VerticalAlignment="Center"/>
             </DockPanel>
         </Border>

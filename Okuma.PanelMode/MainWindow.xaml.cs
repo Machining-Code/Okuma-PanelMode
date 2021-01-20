@@ -23,6 +23,8 @@ namespace Okuma.PanelMode
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private const double SNAP_DISTANCE = 20;
+
 
         public static readonly DependencyProperty PanelModeProperty = DependencyProperty.Register(nameof(PanelMode), typeof(Common.PanelMode), typeof(MainWindow));
 
@@ -107,5 +109,35 @@ namespace Okuma.PanelMode
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
             => this.Close();
+
+        private void winMain_LocationChanged(object sender, EventArgs e)
+        {
+            var workArea = SystemParameters.WorkArea;
+
+            if (Math.Abs(workArea.Left - this.Left) <= SNAP_DISTANCE)
+                this.Left = workArea.Left;
+
+            if (Math.Abs(workArea.Right - (this.Left + this.Width)) <= SNAP_DISTANCE)
+                this.Left = workArea.Right - this.Width;
+
+            if (Math.Abs(workArea.Top - this.Top) <= SNAP_DISTANCE)
+                this.Top = workArea.Top;
+
+            if (Math.Abs(workArea.Bottom - (this.Top + this.Height)) <= SNAP_DISTANCE)
+                this.Top = workArea.Bottom - this.Height;
+        }
+
+        private void btnToggle_Click(object sender, RoutedEventArgs e)
+        {
+            if(this.Height == 64)
+            {
+                this.SizeToContent = SizeToContent.WidthAndHeight;
+            }
+            else
+            {
+                this.SizeToContent = SizeToContent.Width;
+                this.Height = 64;
+            }
+        }
     }
 }
