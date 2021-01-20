@@ -75,8 +75,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BoolBrushConverter.cs" />
-    <Compile Include="BoolColorConverter.cs" />
     <Compile Include="Common\ExtensionMethods.cs" />
     <Compile Include="Lathe\PanelModeLathe.cs" />
     <Compile Include="MC\PanelModeMC.cs" />

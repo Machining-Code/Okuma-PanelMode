@@ -1,44 +1,41 @@
 ﻿using Okuma.PanelMode.Common;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Okuma.PanelMode
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// <summary>Interaction logic for MainWindow.xaml</summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        /// <summary>Snap-to-edge distance in pixels</summary>
         private const double SNAP_DISTANCE = 20;
 
+        /// <summary>Marlett up-arrow character</summary>
+        private const string MARLETT_UP_ARROW = "t";
 
-        public static readonly DependencyProperty PanelModeProperty = DependencyProperty.Register(nameof(PanelMode), typeof(Common.PanelMode), typeof(MainWindow));
+        /// <summary>Marlett down-arrow character</summary>
+        private const string MARLETT_DOWN_ARROW = "u";
 
+        /// <summary>Marlett up-down-arrow character</summary>
+        private const string MARLETT_UP_DOWN_ARROW = "v";
+
+        /// <summary>IPanelMode THINC wrapper</summary>
         private readonly IPanelMode _panelMode;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>Current panel mode</summary>
+        private Common.PanelMode currentPanelMode;
 
+        /// <summary>Current Panel Mode</summary>
         public Common.PanelMode PanelMode
         {
-            get => (Common.PanelMode)GetValue(PanelModeProperty);
+            get => currentPanelMode;
             set
             {
-                SetValue(PanelModeProperty, value);
+                currentPanelMode = value;
                 NotifyPropertyChanged(
+                    nameof(PanelMode),
                     nameof(IsMacMan),
                     nameof(IsToolDataSetup),
                     nameof(IsZeroSetup),
@@ -52,22 +49,46 @@ namespace Okuma.PanelMode
             }
         }
 
+        public string CollapseButtonCaption { get; set; } = MARLETT_UP_ARROW;
+
+        /// <summary>Is MacMan</summary>
         public bool IsMacMan => PanelMode == Common.PanelMode.MacMan;
+
+        /// <summary>Is Tool Data Setup</summary>
         public bool IsToolDataSetup => PanelMode == Common.PanelMode.ToolDataSetup;
+
+        /// <summary>Is Zero Setup</summary>
         public bool IsZeroSetup => PanelMode == Common.PanelMode.ZeroSetup;
+
+        /// <summary>Is Parameter Setup</summary>
         public bool IsParameterSetup => PanelMode == Common.PanelMode.ParameterSetup;
+
+        /// <summary>Is Program Operation</summary>
         public bool IsProgramOperation => PanelMode == Common.PanelMode.ProgramOperation;
+
+        /// <summary>Is Manual Operation</summary>
         public bool IsManual => PanelMode == Common.PanelMode.Manual;
+
+        /// <summary>Is MDI Operation</summary>
         public bool IsMDI => PanelMode == Common.PanelMode.MDI;
+
+        /// <summary>Is Auto Operation</summary>
         public bool IsAuto => PanelMode == Common.PanelMode.Auto;
+
+        /// <summary>Is Operation Mode</summary>
         public bool IsOperation => IsManual || IsMDI || IsAuto;
 
+        /// <summary>Constructor</summary>
         public MainWindow()
         {
             InitializeComponent();
-            _panelMode = PanelModeFactory.CreatePanelMode();
+            _panelMode = PanelModeFactory.Instance.CreatePanelMode();
             _panelMode.PanelModeChanged += _panelMode_PanelModeChanged;
         }
+
+        #region INotifyPropertyChanged Implementation
+        
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -84,32 +105,41 @@ namespace Okuma.PanelMode
                 NotifyPropertyChanged(propertyName);
         }
 
-        private void _panelMode_PanelModeChanged(object sender, EventArgs e)
-        {
-            Dispatcher.Invoke(() => PanelMode = _panelMode.GetPanelMode());
-        }
+        #endregion
 
+        /// <summary>Panel mode changed event handler</summary>
+        private void _panelMode_PanelModeChanged(object sender, EventArgs e)
+            => Dispatcher.Invoke(() => PanelMode = _panelMode.GetPanelMode());
+
+        /// <summary>Operation button click event handler</summary>
         private void btnOperation_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.OperationMode, "");
 
+        /// <summary>Program button click event handler</summary>
         private void btnProgram_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.ProgramMode, "");
 
+        /// <summary>Parameter button click event handler</summary>
         private void btnParameter_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.ParameterMode, "");
 
+        /// <summary>Zero set button click event handler</summary>
         private void btnZeroSet_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.ZeroSetMode, "");
 
+        /// <summary>Tool data button click event handler</summary>
         private void btnToolData_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.ToolDataSettingMode, "");
 
+        /// <summary>MacMan button click event handler</summary>
         private void btnMacMan_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.MacManMode, "");
 
+        /// <summary>Close button click event handler</summary>
         private void btnClose_Click(object sender, RoutedEventArgs e)
             => this.Close();
 
+        /// <summary>Window location changed event handler</summary>
         private void winMain_LocationChanged(object sender, EventArgs e)
         {
             var workArea = SystemParameters.WorkArea;
@@ -127,17 +157,21 @@ namespace Okuma.PanelMode
                 this.Top = workArea.Bottom - this.Height;
         }
 
+        /// <summary>Toggle button click event handler</summary>
         private void btnToggle_Click(object sender, RoutedEventArgs e)
         {
             if(this.Height == 64)
             {
                 this.SizeToContent = SizeToContent.WidthAndHeight;
+                CollapseButtonCaption = MARLETT_UP_ARROW;
             }
             else
             {
                 this.SizeToContent = SizeToContent.Width;
                 this.Height = 64;
+                CollapseButtonCaption = MARLETT_DOWN_ARROW;
             }
+            NotifyPropertyChanged(nameof(CollapseButtonCaption));
         }
     }
 }

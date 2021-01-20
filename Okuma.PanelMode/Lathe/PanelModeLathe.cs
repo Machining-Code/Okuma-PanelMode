@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Okuma.PanelMode.Lathe
 {
+    /// <summary>
+    /// THINC Lathe IPanelMode implementation
+    /// </summary>
     public class PanelModeLathe : IPanelMode
     {
         private readonly CmdAPI.CViews _views;
@@ -22,6 +25,9 @@ namespace Okuma.PanelMode.Lathe
 
         private void ChangeTimer_Tick(object state)
         {
+            // Check whether the current panel group is different from the last known/set.
+            // If so, raise a PanelModeChanged event.
+            // This is a little more complicated because the API gives us panel mode, not panel group.
             var actualMode = _machine.GetPanelMode();
             PanelGroup panelGroup;
 
@@ -46,11 +52,15 @@ namespace Okuma.PanelMode.Lathe
 
         public PanelModeLathe()
         {
+            // Pass application name into CMachine constructor for logging purposes
+            // MUST call Init() before using THINC API functionality
             var name = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
             _machine = new DataAPI.CMachine(name);
             _machine.Init();
             _views = new CmdAPI.CViews();
-            _changeTimer = new System.Threading.Timer(ChangeTimer_Tick, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+
+            // Because the panel mode can change on the machine, periodically check whether it has changed and raise an event accordingly.
+            _changeTimer = new System.Threading.Timer(ChangeTimer_Tick, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
         }
 
         public void ChangeScreen(PanelGroup panelGroup, string screenName)
