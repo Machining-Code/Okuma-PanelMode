@@ -1,7 +1,7 @@
-﻿using DataAPI = Okuma.CLDATAPI.DataAPI;
-using DataEnum = Okuma.CLDATAPI.Enumerations;
-using CmdAPI = Okuma.CLCMDAPI.CommandAPI;
-using CmdEnum = Okuma.CLCMDAPI.Enumerations;
+﻿using DataAPI = Okuma.CMDATAPI.DataAPI;
+using DataEnum = Okuma.CMDATAPI.Enumerations;
+using CmdAPI = Okuma.CMCMDAPI.CommandAPI;
+using CmdEnum = Okuma.CMCMDAPI.Enumerations;
 using Okuma.PanelMode.Common;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Okuma.PanelMode.Lathe
 {
-    public class PanelModeLathe : IPanelMode
+    public class PanelModeMC : IPanelMode
     {
         private readonly CmdAPI.CViews _views;
         private readonly DataAPI.CMachine _machine;
@@ -44,9 +44,9 @@ namespace Okuma.PanelMode.Lathe
                 PanelModeChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public PanelModeLathe()
+        public PanelModeMC()
         {
-            var name = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            var name = System.Reflection.Assembly.GetEntryAssembly().GetName().Name ;
             _machine = new DataAPI.CMachine(name);
             _machine.Init();
             _views = new CmdAPI.CViews();

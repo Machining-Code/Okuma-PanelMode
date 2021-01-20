@@ -69,10 +69,11 @@ namespace Okuma.PanelMode
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged.Invoke(
+            Application.Current.Dispatcher.Invoke(() =>
+            PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(propertyName)
-                );
+                ));
         }
 
         private void NotifyPropertyChanged(params string[] propertyNames)
@@ -83,7 +84,7 @@ namespace Okuma.PanelMode
 
         private void _panelMode_PanelModeChanged(object sender, EventArgs e)
         {
-            PanelMode = _panelMode.GetPanelMode();
+            Dispatcher.Invoke(() => PanelMode = _panelMode.GetPanelMode());
         }
 
         private void btnOperation_Click(object sender, RoutedEventArgs e)
@@ -103,5 +104,8 @@ namespace Okuma.PanelMode
 
         private void btnMacMan_Click(object sender, RoutedEventArgs e)
             => _panelMode.ChangeScreen(PanelGroup.MacManMode, "");
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+            => this.Close();
     }
 }

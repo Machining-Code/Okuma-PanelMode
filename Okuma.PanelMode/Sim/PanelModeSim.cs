@@ -9,12 +9,24 @@ namespace Okuma.PanelMode.Sim
 {
     public class PanelModeSim : IPanelMode
     {
+        private readonly System.Threading.Timer _changeTimer; 
         private Common.PanelMode _panelMode;
 
         public event EventHandler PanelModeChanged;
 
+        private void ChangeTimer_Tick(object state) => ChangeScreen(PanelGroup.OperationMode, "");
+
+        public PanelModeSim()
+        {
+            var name = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            Console.WriteLine($"Logging name {name}");
+            _changeTimer = new System.Threading.Timer(ChangeTimer_Tick, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+        }
+
         public void ChangeScreen(PanelGroup panelGroup, string screenName)
         {
+            Console.WriteLine($"ChangeScreen {panelGroup}, {screenName}");
+
             switch (panelGroup)
             {
                 case PanelGroup.OperationMode:
@@ -31,6 +43,9 @@ namespace Okuma.PanelMode.Sim
                     break;
                 case PanelGroup.ToolDataSettingMode:
                     _panelMode = Common.PanelMode.ToolDataSetup;
+                    break;
+                case PanelGroup.MacManMode:
+                    _panelMode = Common.PanelMode.MacMan;
                     break;
                 default:
                     _panelMode = Common.PanelMode.Auto;
