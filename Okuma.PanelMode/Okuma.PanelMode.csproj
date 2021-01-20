@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>MC\Okuma.CMDATAPI.dll</HintPath>
     </Reference>
+    <Reference Include="Okuma.Scout, Version=4.12.37.0, Culture=neutral, PublicKeyToken=4bb95c359d1d98b9, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Okuma.Scout.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -126,6 +130,7 @@
   <ItemGroup>
     <Content Include="Lathe\Okuma.CLCMDAPI.dll" />
     <Content Include="MC\Okuma.CMCMDAPI.dll" />
+    <Content Include="Okuma.Scout.dll" />
     <Resource Include="MC\Okuma.CMCMDAPI.xml" />
     <Content Include="MC\Okuma.CMDATAPI.dll" />
     <Resource Include="MC\Okuma.CMDATAPI.xml" />

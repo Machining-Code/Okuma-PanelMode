@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Okuma.PanelMode.Lathe
+namespace Okuma.PanelMode.MC
 {
     public class PanelModeMC : IPanelMode
     {
