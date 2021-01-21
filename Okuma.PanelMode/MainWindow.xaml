@@ -6,18 +6,27 @@
         xmlns:local="clr-namespace:Okuma.PanelMode"
         mc:Ignorable="d"
         x:Name="winMain"
-        Title="PanelMode" Height="580" Width="300"
+        Title="PanelMode" Height="64" Width="950"
         WindowStyle="None"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
+        WindowStartupLocation="Manual"
         LocationChanged="winMain_LocationChanged">
     <Window.Resources>
         <Style TargetType="ToggleButton">
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Padding" Value="0 20"/>
-            <Setter Property="Margin" Value="0 10 0 0"/>
-            <Setter Property="MinHeight" Value="50"/>
+            <Setter Property="Padding" Value="10 0"/>
+            <Setter Property="Margin" Value="5 0"/>
+            <Setter Property="MinHeight" Value="64"/>
             <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Marlett"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="5 10"/>
+            <Setter Property="Width" Value="64"/>
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
         </Style>
     </Window.Resources>
     <WindowChrome.WindowChrome>
@@ -26,19 +35,17 @@
     <StackPanel>
         <Border Background="{DynamicResource ResourceKey={x:Static SystemColors.ActiveCaptionBrushKey}}" Height="64">
             <DockPanel>
-                <Button WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Left" Content="{Binding CollapseButtonCaption, ElementName=winMain, Mode=OneWay, FallbackValue=v}" FontFamily="Marlett" FontSize="20" Padding="5 10" x:Name="btnToggle" Click="btnToggle_Click"/>
-                <Button WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Content="r" FontFamily="Marlett" FontSize="20" Padding="5 10" x:Name="btnClose" Click="btnClose_Click"/>
-                <Label DockPanel.Dock="Left" Content="{Binding Title, ElementName=winMain}" FontSize="20" VerticalAlignment="Center"/>
+                <Button DockPanel.Dock="Left" Content="{Binding CollapseButtonCaption, ElementName=winMain, Mode=OneWay, FallbackValue=3}" x:Name="btnToggle" Click="btnToggle_Click"/>
+                <Button DockPanel.Dock="Right" Content="r" x:Name="btnClose" Click="btnClose_Click"/>
+                <StackPanel Orientation="Horizontal" Margin="10 0 64 0" HorizontalAlignment="Left">
+                    <ToggleButton Content="Operation" x:Name="btnOperation" Click="btnOperation_Click" IsChecked="{Binding IsOperation, ElementName=winMain, Mode=OneWay}"/>
+                    <ToggleButton Content="Program" x:Name="btnProgram" Click="btnProgram_Click" IsChecked="{Binding IsProgramOperation, ElementName=winMain, Mode=OneWay}"/>
+                    <ToggleButton Content="Parameter" x:Name="btnParameter" Click="btnParameter_Click" IsChecked="{Binding IsParameterSetup, ElementName=winMain, Mode=OneWay}"/>
+                    <ToggleButton Content="Zero Set" x:Name="btnZeroSet" Click="btnZeroSet_Click" IsChecked="{Binding IsZeroSetup, ElementName=winMain, Mode=OneWay}"/>
+                    <ToggleButton Content="Tool Data" x:Name="btnToolData" Click="btnToolData_Click" IsChecked="{Binding IsToolDataSetup, ElementName=winMain, Mode=OneWay}"/>
+                    <ToggleButton Content="MacMan" x:Name="btnMacMan" Click="btnMacMan_Click" IsChecked="{Binding IsMacMan, ElementName=winMain, Mode=OneWay}"/>
+                </StackPanel>
             </DockPanel>
         </Border>
-        <!-- TODO: draggable, foldable buttons-->
-        <StackPanel Orientation="Vertical">
-            <ToggleButton Content="Operation" x:Name="btnOperation" Click="btnOperation_Click" IsChecked="{Binding IsOperation, ElementName=winMain, Mode=OneWay}"/>
-            <ToggleButton Content="Program" x:Name="btnProgram" Click="btnProgram_Click" IsChecked="{Binding IsProgramOperation, ElementName=winMain, Mode=OneWay}"/>
-            <ToggleButton Content="Parameter" x:Name="btnParameter" Click="btnParameter_Click" IsChecked="{Binding IsParameterSetup, ElementName=winMain, Mode=OneWay}"/>
-            <ToggleButton Content="Zero Set" x:Name="btnZeroSet" Click="btnZeroSet_Click" IsChecked="{Binding IsZeroSetup, ElementName=winMain, Mode=OneWay}"/>
-            <ToggleButton Content="Tool Data" x:Name="btnToolData" Click="btnToolData_Click" IsChecked="{Binding IsToolDataSetup, ElementName=winMain, Mode=OneWay}"/>
-            <ToggleButton Content="MacMan" x:Name="btnMacMan" Click="btnMacMan_Click" IsChecked="{Binding IsMacMan, ElementName=winMain, Mode=OneWay}"/>
-        </StackPanel>
     </StackPanel>
 </Window>

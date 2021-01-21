@@ -12,14 +12,11 @@ namespace Okuma.PanelMode
         /// <summary>Snap-to-edge distance in pixels</summary>
         private const double SNAP_DISTANCE = 20;
 
-        /// <summary>Marlett up-arrow character</summary>
-        private const string MARLETT_UP_ARROW = "t";
+        /// <summary>Collapse caption</summary>
+        private const string COLLAPSE_CAPTION = "3";
 
-        /// <summary>Marlett down-arrow character</summary>
-        private const string MARLETT_DOWN_ARROW = "u";
-
-        /// <summary>Marlett up-down-arrow character</summary>
-        private const string MARLETT_UP_DOWN_ARROW = "v";
+        /// <summary>Expand caption</summary>
+        private const string EXPAND_CAPTION = "4";
 
         /// <summary>IPanelMode THINC wrapper</summary>
         private readonly IPanelMode _panelMode;
@@ -49,7 +46,7 @@ namespace Okuma.PanelMode
             }
         }
 
-        public string CollapseButtonCaption { get; set; } = MARLETT_UP_ARROW;
+        public string CollapseButtonCaption { get; set; } = COLLAPSE_CAPTION;
 
         /// <summary>Is MacMan</summary>
         public bool IsMacMan => PanelMode == Common.PanelMode.MacMan;
@@ -82,6 +79,8 @@ namespace Okuma.PanelMode
         public MainWindow()
         {
             InitializeComponent();
+            this.Left = SystemParameters.WorkArea.Left;
+            this.Top = SystemParameters.WorkArea.Top;
             _panelMode = PanelModeFactory.Instance.CreatePanelMode();
             _panelMode.PanelModeChanged += _panelMode_PanelModeChanged;
         }
@@ -160,16 +159,18 @@ namespace Okuma.PanelMode
         /// <summary>Toggle button click event handler</summary>
         private void btnToggle_Click(object sender, RoutedEventArgs e)
         {
-            if(this.Height == 64)
+            if(this.Width == 64)
             {
                 this.SizeToContent = SizeToContent.WidthAndHeight;
-                CollapseButtonCaption = MARLETT_UP_ARROW;
+                this.Opacity = 1.0;
+                CollapseButtonCaption = COLLAPSE_CAPTION;
             }
             else
             {
-                this.SizeToContent = SizeToContent.Width;
-                this.Height = 64;
-                CollapseButtonCaption = MARLETT_DOWN_ARROW;
+                this.SizeToContent = SizeToContent.Height;
+                this.Width = 64;
+                this.Opacity = 0.5;
+                CollapseButtonCaption = EXPAND_CAPTION;
             }
             NotifyPropertyChanged(nameof(CollapseButtonCaption));
         }
